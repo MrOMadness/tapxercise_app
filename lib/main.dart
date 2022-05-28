@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tapxercise/blocs/leaderboard_bloc.dart';
+import 'package:tapxercise/bloc/leaderboard_bloc.dart';
 import 'package:tapxercise/bottom_navigation.dart';
 import 'package:tapxercise/utils/api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Remove android status bar
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
   await NssProductions.getAllUsers();
 
