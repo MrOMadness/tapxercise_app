@@ -43,6 +43,7 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.amber,
         padding: EdgeInsets.all(10.0),
         child: BlocBuilder<LeaderboardBloc, LeaderboardState>(
           builder: (context, state) {
@@ -50,50 +51,53 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
               return loading();
             } else if (state is LeaderboardLoaded) {
               List<Leaderboard> leaderboardList = state.props.single;
-              return ListView(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      sortAscending: sort,
-                      sortColumnIndex: colIndex,
-                      columns: [
-                        DataColumn(
-                            label: Text("User Name"),
-                            onSort: (columnIndex, ascending) {
-                              setState(() {
-                                sort = !sort;
-                                colIndex = columnIndex;
-                              });
-                              onSortColum(
-                                  columnIndex, ascending, leaderboardList);
-                            }),
-                        DataColumn(
-                            label: Text("Score"),
-                            onSort: (columnIndex, ascending) {
-                              setState(() {
-                                sort = !sort;
-                                colIndex = columnIndex;
-                              });
-                              onSortColum(
-                                  columnIndex, ascending, leaderboardList);
-                            }),
-                      ],
-                      rows: leaderboardList
-                          .map(
-                            (x) => DataRow(cells: [
-                              DataCell(
-                                Text(x.userName),
-                              ),
-                              DataCell(
-                                Text(x.score.toString()),
-                              ),
-                            ]),
-                          )
-                          .toList(),
+              return Container(
+                color: Colors.blue,
+                child: ListView(
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        sortAscending: sort,
+                        sortColumnIndex: colIndex,
+                        columns: [
+                          DataColumn(
+                              label: Text("User Name"),
+                              onSort: (columnIndex, ascending) {
+                                setState(() {
+                                  sort = !sort;
+                                  colIndex = columnIndex;
+                                });
+                                onSortColum(
+                                    columnIndex, ascending, leaderboardList);
+                              }),
+                          DataColumn(
+                              label: Text("Score"),
+                              onSort: (columnIndex, ascending) {
+                                setState(() {
+                                  sort = !sort;
+                                  colIndex = columnIndex;
+                                });
+                                onSortColum(
+                                    columnIndex, ascending, leaderboardList);
+                              }),
+                        ],
+                        rows: leaderboardList
+                            .map(
+                              (x) => DataRow(cells: [
+                                DataCell(
+                                  Text(x.userName),
+                                ),
+                                DataCell(
+                                  Text(x.score.toString()),
+                                ),
+                              ]),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
             return error();
