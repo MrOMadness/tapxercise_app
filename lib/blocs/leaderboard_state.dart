@@ -4,7 +4,7 @@ abstract class LeaderboardState extends Equatable {
   const LeaderboardState();
 }
 
-class InitialLeaderboardState extends LeaderboardState {
+class InitialLeaderboard extends LeaderboardState {
   @override
   List<Object> get props => [];
 }
@@ -15,7 +15,7 @@ class LeaderboardInitial extends LeaderboardState {
   List<Object> get props => [];
 }
 
-class LeaderboardLoadingState extends LeaderboardState {
+class LeaderboardLoading extends LeaderboardState {
   @override
   List<Object> get props => [];
 }
@@ -28,8 +28,8 @@ class LeaderboardError extends LeaderboardState {
 }
 
 class LeaderboardLoaded extends LeaderboardState {
-  final Leaderboard leaderboard;
-  const LeaderboardLoaded(this.leaderboard);
+  final leaderboardArray;
+  const LeaderboardLoaded(this.leaderboardArray);
   // @override
   List<Object> get props => [];
 }

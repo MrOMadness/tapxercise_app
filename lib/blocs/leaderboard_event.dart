@@ -5,10 +5,8 @@ abstract class LeaderboardEvent extends Equatable {
 }
 
 class GetLeaderboard extends LeaderboardEvent {
-  final String bannerID;
-  final String type;
-  const GetLeaderboard(this.bannerID, this.type);
+  GetLeaderboard();
 
   @override
-  List<Object> get props => [bannerID, type];
+  List<Object> get props => [];
 }

@@ -12,11 +12,11 @@ String leaderboardToJson(List<Leaderboard> data) =>
 
 class Leaderboard {
   Leaderboard({
-    required this.id,
-    required this.userName,
-    required this.score,
-    required this.time,
-    required this.v,
+    this.id,
+    this.userName,
+    this.score,
+    this.time,
+    this.v,
   });
 
   String id;

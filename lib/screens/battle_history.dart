@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BattleHistoryScreen extends StatefulWidget {
-  const BattleHistoryScreen({Key? key}) : super(key: key);
+  const BattleHistoryScreen({Key key}) : super(key: key);
 
   @override
   State<BattleHistoryScreen> createState() => _BattleHistoryScreenState();

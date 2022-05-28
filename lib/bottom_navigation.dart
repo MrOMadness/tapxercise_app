@@ -5,7 +5,7 @@ import 'package:tapxercise/screens/scan_qr.dart';
 import 'package:tapxercise/screens/solo_leaderboard.dart';
 
 class ButtomNavigation extends StatefulWidget {
-  const ButtomNavigation({Key? key}) : super(key: key);
+  const ButtomNavigation({Key key}) : super(key: key);
 
   @override
   State<ButtomNavigation> createState() => _ButtomNavigationState();
