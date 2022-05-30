@@ -70,13 +70,14 @@ class _ChangePlayerScreenState extends State<ChangePlayerScreen> {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_soloFormKey.currentState.validate()) {
                           final res = await NssProductions.postChangePlayer(
-                              1, soloPlayerName.text.toString(), '');
+                              1, soloPlayerName.text.toString(), 'null');
                           if (res == 201) {
                             // Success
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Success. Playername changed')),
                             );
+                            Navigator.pop(context);
                           } else {
                             // fail
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -162,6 +163,7 @@ class _ChangePlayerScreenState extends State<ChangePlayerScreen> {
                               const SnackBar(
                                   content: Text('Success. Playername changed')),
                             );
+                            Navigator.pop(context);
                           } else {
                             // fail
                             ScaffoldMessenger.of(context).showSnackBar(
