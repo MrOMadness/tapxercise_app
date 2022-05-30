@@ -1,7 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:tapxercise/screens/battle_history.dart';
-import 'package:tapxercise/screens/scan_qr.dart';
+import 'package:tapxercise/screens/change_player.dart';
 import 'package:tapxercise/screens/solo_leaderboard.dart';
 
 class ButtomNavigation extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ButtomNavigationState extends State<ButtomNavigation> {
         onPressed: () async {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ScanQrScreen()),
+            MaterialPageRoute(builder: (context) => ChangePlayerScreen()),
           );
         },
         child: const Icon(

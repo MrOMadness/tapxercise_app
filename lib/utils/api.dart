@@ -20,4 +20,21 @@ class NssProductions {
       print(e);
     }
   }
+
+  static Future<int> postChangePlayer(
+      int gameType, String playerOne, String playerTwo) async {
+    try {
+      final response = await Dio()
+          .post('https://www.nss-productions.com/tapxercise/players', data: {
+        "gameType": gameType,
+        "playerOne": playerOne,
+        "playerTwo": playerTwo
+      });
+      print(response.statusCode);
+      return response.statusCode;
+    } catch (e) {
+      print(e);
+      return 400;
+    }
+  }
 }
