@@ -31,9 +31,11 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
       int columnIndex, bool ascending, List<Leaderboard> leaderboardList) {
     if (columnIndex == 0) {
       if (ascending) {
-        leaderboardList.sort((a, b) => a.userName.compareTo(b.userName));
+        leaderboardList.sort((a, b) =>
+            a.userName.toLowerCase().compareTo(b.userName.toLowerCase()));
       } else {
-        leaderboardList.sort((a, b) => b.userName.compareTo(a.userName));
+        leaderboardList.sort((a, b) =>
+            b.userName.toLowerCase().compareTo(a.userName.toLowerCase()));
       }
     } else if (columnIndex == 1) {
       if (ascending) {
