@@ -21,7 +21,6 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
         yield LeaderboardLoading();
       }
       sleep(Duration(seconds: 2));
-      // yield LeaderboardLoading();
       try {
         yield LeaderboardLoaded(await NssProductions.getAllUsers());
       } catch (e) {

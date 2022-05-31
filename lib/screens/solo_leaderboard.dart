@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tapxercise/bloc/leaderboard_bloc.dart';
 import 'package:tapxercise/components/general.dart';
 import 'package:tapxercise/models/leaderboard_model.dart';
@@ -14,6 +16,31 @@ class SoloLeaderboardScreen extends StatefulWidget {
 class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
   bool sort;
   int colIndex = 0;
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    BlocProvider.of<LeaderboardBloc>(context);
+    LeaderboardEvent event;
+    if (event is GetLeaderboard) {
+      event.loading = true;
+      print(event.loading);
+    }
+
+    print('tes');
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    BlocProvider.of<LeaderboardBloc>(context);
+    LeaderboardEvent event;
+    if (event is GetLeaderboard) {
+      event.loading = false;
+    }
+    // if (mounted) setState(() {});
+    _refreshController.loadComplete();
+  }
 
   @override
   void initState() {
@@ -53,50 +80,62 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
               List<Leaderboard> leaderboardList = state.props.single;
               return Container(
                 color: Colors.blue,
-                child: ListView(
-                  children: <Widget>[
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        sortAscending: sort,
-                        sortColumnIndex: colIndex,
-                        columns: [
-                          DataColumn(
-                              label: Text("User Name"),
-                              onSort: (columnIndex, ascending) {
-                                setState(() {
-                                  sort = !sort;
-                                  colIndex = columnIndex;
-                                });
-                                onSortColum(
-                                    columnIndex, ascending, leaderboardList);
-                              }),
-                          DataColumn(
-                              label: Text("Score"),
-                              onSort: (columnIndex, ascending) {
-                                setState(() {
-                                  sort = !sort;
-                                  colIndex = columnIndex;
-                                });
-                                onSortColum(
-                                    columnIndex, ascending, leaderboardList);
-                              }),
-                        ],
-                        rows: leaderboardList
-                            .map(
-                              (x) => DataRow(cells: [
-                                DataCell(
-                                  Text(x.userName),
-                                ),
-                                DataCell(
-                                  Text(x.score.toString()),
-                                ),
-                              ]),
-                            )
-                            .toList(),
+                child: SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: ClassicHeader(),
+                  footer: ClassicFooter(
+                    loadStyle: LoadStyle.ShowWhenLoading,
+                    completeDuration: Duration(milliseconds: 500),
+                  ),
+                  controller: _refreshController,
+                  onRefresh: _onRefresh,
+                  onLoading: _onLoading,
+                  child: ListView(
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          sortAscending: sort,
+                          sortColumnIndex: colIndex,
+                          columns: [
+                            DataColumn(
+                                label: Text("User Name"),
+                                onSort: (columnIndex, ascending) {
+                                  setState(() {
+                                    sort = !sort;
+                                    colIndex = columnIndex;
+                                  });
+                                  onSortColum(
+                                      columnIndex, ascending, leaderboardList);
+                                }),
+                            DataColumn(
+                                label: Text("Score"),
+                                onSort: (columnIndex, ascending) {
+                                  setState(() {
+                                    sort = !sort;
+                                    colIndex = columnIndex;
+                                  });
+                                  onSortColum(
+                                      columnIndex, ascending, leaderboardList);
+                                }),
+                          ],
+                          rows: leaderboardList
+                              .map(
+                                (x) => DataRow(cells: [
+                                  DataCell(
+                                    Text(x.userName),
+                                  ),
+                                  DataCell(
+                                    Text(x.score.toString()),
+                                  ),
+                                ]),
+                              )
+                              .toList(),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }
