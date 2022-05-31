@@ -7,8 +7,12 @@ abstract class LeaderboardEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetLeaderboard extends LeaderboardEvent {
-  final bool loading;
+// class GetLeaderboard extends LeaderboardEvent {
+//   final bool loading;
 
-  GetLeaderboard({this.loading});
-}
+//   GetLeaderboard({this.loading});
+// }
+
+class LeaderboardLoadEvent extends LeaderboardEvent {}
+
+class LeaderboardRefreshEvent extends LeaderboardEvent {}

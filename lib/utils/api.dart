@@ -15,7 +15,7 @@ class NssProductions {
       }
       return arrayOfLeaderboard;
     } catch (e) {
-      print(e);
+      throw (e);
     }
   }
 
@@ -31,8 +31,8 @@ class NssProductions {
       print(response.statusCode);
       return response.statusCode;
     } catch (e) {
-      print(e);
-      return 400;
+      throw (e);
+      // return 400;
     }
   }
 }

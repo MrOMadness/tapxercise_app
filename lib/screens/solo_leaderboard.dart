@@ -20,31 +20,9 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  void _onRefresh() async {
-    BlocProvider.of<LeaderboardBloc>(context);
-    LeaderboardEvent event;
-    if (event is GetLeaderboard) {
-      event.loading = true;
-      print(event.loading);
-    }
-
-    print('tes');
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    BlocProvider.of<LeaderboardBloc>(context);
-    LeaderboardEvent event;
-    if (event is GetLeaderboard) {
-      event.loading = false;
-    }
-    // if (mounted) setState(() {});
-    _refreshController.loadComplete();
-  }
-
   @override
   void initState() {
-    BlocProvider.of<LeaderboardBloc>(context).add(GetLeaderboard());
+    BlocProvider.of<LeaderboardBloc>(context).add(LeaderboardLoadEvent());
     super.initState();
     sort = false;
   }
@@ -73,6 +51,7 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
         color: Colors.amber,
         padding: EdgeInsets.all(10.0),
         child: BlocBuilder<LeaderboardBloc, LeaderboardState>(
+          buildWhen: (previous, current) => current is LeaderboardLoaded,
           builder: (context, state) {
             if (state is LeaderboardLoading || state is LeaderboardInitial) {
               return loading();
@@ -82,15 +61,28 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
                 color: Colors.blue,
                 child: SmartRefresher(
                   enablePullDown: true,
-                  enablePullUp: true,
                   header: ClassicHeader(),
-                  footer: ClassicFooter(
-                    loadStyle: LoadStyle.ShowWhenLoading,
-                    completeDuration: Duration(milliseconds: 500),
-                  ),
                   controller: _refreshController,
-                  onRefresh: _onRefresh,
-                  onLoading: _onLoading,
+                  onRefresh: () async {
+                    final bloc = BlocProvider.of<LeaderboardBloc>(context)
+                      ..add(LeaderboardRefreshEvent());
+
+                    await bloc.stream.lastWhere((event) {
+                      if (event is! LeaderboardRefreshEvent) {
+                        final temp = event.toString().substring(0, 17);
+                        if (temp == 'LeaderboardLoaded') {
+                          _refreshController.refreshCompleted();
+                          return true;
+                        }
+                        return false;
+                      }
+                      _refreshController.refreshFailed();
+                      return false;
+                    });
+                  },
+                  onLoading: () async {
+                    _refreshController.loadComplete();
+                  },
                   child: ListView(
                     children: <Widget>[
                       SingleChildScrollView(

@@ -19,3 +19,5 @@ class LeaderboardLoaded extends LeaderboardState {
 class LeaderboardLoading extends LeaderboardState {}
 
 class LeaderboardError extends LeaderboardState {}
+
+class LeaderboardRefresh extends LeaderboardState {}
