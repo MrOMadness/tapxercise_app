@@ -47,8 +47,11 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+        title: Text('Leaderboard'),
+      ),
       body: Container(
-        color: Colors.amber,
         padding: EdgeInsets.all(10.0),
         child: BlocBuilder<LeaderboardBloc, LeaderboardState>(
           buildWhen: (previous, current) => current is LeaderboardLoaded,
@@ -58,7 +61,6 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
             } else if (state is LeaderboardLoaded) {
               List<Leaderboard> leaderboardList = state.props.single;
               return Container(
-                color: Colors.blue,
                 child: SmartRefresher(
                   enablePullDown: true,
                   header: ClassicHeader(),
@@ -85,46 +87,43 @@ class _SoloLeaderboardScreenState extends State<SoloLeaderboardScreen> {
                   },
                   child: ListView(
                     children: <Widget>[
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          sortAscending: sort,
-                          sortColumnIndex: colIndex,
-                          columns: [
-                            DataColumn(
-                                label: Text("User Name"),
-                                onSort: (columnIndex, ascending) {
-                                  setState(() {
-                                    sort = !sort;
-                                    colIndex = columnIndex;
-                                  });
-                                  onSortColum(
-                                      columnIndex, ascending, leaderboardList);
-                                }),
-                            DataColumn(
-                                label: Text("Score"),
-                                onSort: (columnIndex, ascending) {
-                                  setState(() {
-                                    sort = !sort;
-                                    colIndex = columnIndex;
-                                  });
-                                  onSortColum(
-                                      columnIndex, ascending, leaderboardList);
-                                }),
-                          ],
-                          rows: leaderboardList
-                              .map(
-                                (x) => DataRow(cells: [
-                                  DataCell(
-                                    Text(x.userName),
-                                  ),
-                                  DataCell(
-                                    Text(x.score.toString()),
-                                  ),
-                                ]),
-                              )
-                              .toList(),
-                        ),
+                      DataTable(
+                        sortAscending: sort,
+                        sortColumnIndex: colIndex,
+                        columns: [
+                          DataColumn(
+                              label: Text("Nickname"),
+                              onSort: (columnIndex, ascending) {
+                                setState(() {
+                                  sort = !sort;
+                                  colIndex = columnIndex;
+                                });
+                                onSortColum(
+                                    columnIndex, ascending, leaderboardList);
+                              }),
+                          DataColumn(
+                              label: Text("Score"),
+                              onSort: (columnIndex, ascending) {
+                                setState(() {
+                                  sort = !sort;
+                                  colIndex = columnIndex;
+                                });
+                                onSortColum(
+                                    columnIndex, ascending, leaderboardList);
+                              }),
+                        ],
+                        rows: leaderboardList
+                            .map(
+                              (x) => DataRow(cells: [
+                                DataCell(
+                                  Text(x.userName),
+                                ),
+                                DataCell(
+                                  Text(x.score.toString()),
+                                ),
+                              ]),
+                            )
+                            .toList(),
                       ),
                     ],
                   ),
